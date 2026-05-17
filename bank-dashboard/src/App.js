@@ -27,10 +27,11 @@ function App() {
 
   // ================= FETCH DATA =================
   useEffect(() => {
-    // 💡 Looks for the Vercel variable live, otherwise uses localhost for your laptop
-    const BACKEND_BASE_URL = process.env.REACT_APP_NODE_API_URL || "http://localhost:5000";
+    // 💡 If Vercel env has ".../loans", we use it as-is. If local, fallback appends /loans to the port.
+    const envUrl = process.env.REACT_APP_NODE_API_URL;
+    const FETCH_URL = envUrl ? envUrl : "http://localhost:5000/loans";
 
-    axios.get(`${BACKEND_BASE_URL}/loans`)
+    axios.get(FETCH_URL)
       .then((response) => {
         const cleaned = response.data.map((loan) => ({
           ...loan,
@@ -45,7 +46,9 @@ function App() {
         console.log("CLEANED DATA:", cleaned);
         setLoans(cleaned);
       })
-      .catch(console.log);
+      .catch((error) => {
+        console.error("Data fetching failed:", error);
+      });
   }, []);
 
   // ================= KPIs =================
