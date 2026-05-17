@@ -22,11 +22,12 @@ function PredictionForm() {
   };
 
   const handlePredict = async () => {
-
     try {
+      // 💡 Looks for your Render ML URL on Vercel, otherwise uses local port 5001
+      const ML_BASE_URL = process.env.REACT_APP_ML_API_URL || "http://127.0.0.1:5001";
 
       const response = await axios.post(
-        "http://127.0.0.1:5001/predict",
+        `${ML_BASE_URL}/predict`,
         {
           income: Number(formData.income),
           creditScore: Number(formData.creditScore),
@@ -40,16 +41,12 @@ function PredictionForm() {
       setResult(response.data);
 
     } catch (error) {
-
       console.log(error);
-
       alert("Prediction failed");
-
     }
   };
 
   return (
-
     <div className="prediction-card">
 
       <h2>AI Loan Prediction</h2>
@@ -105,35 +102,27 @@ function PredictionForm() {
       </button>
 
       {result && (
-
         <div className="result-box">
 
           <h3>
-            Prediction:
-            {result.prediction}
+            Prediction: {result.prediction}
           </h3>
 
           <p>
-            Approval Probability:
-            {result.approvalProbability}%
+            Approval Probability: {result.approvalProbability}%
           </p>
 
           <h4>Reasons:</h4>
 
           <ul>
-
             {result.reasons.map((reason, index) => (
-
               <li key={index}>
                 {reason}
               </li>
-
             ))}
-
           </ul>
 
         </div>
-
       )}
 
     </div>
