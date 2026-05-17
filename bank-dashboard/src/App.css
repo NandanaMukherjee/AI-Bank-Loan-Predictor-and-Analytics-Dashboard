@@ -1,0 +1,248 @@
+/* =========================
+   FONT
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* =========================
+   GLOBAL THEME (POWER BI DARK)
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: #0b1220;   /* deep dashboard black */
+  color: #e5e7eb;
+}
+
+/* =========================
+   DASHBOARD WRAPPER
+========================= */
+
+.dashboard {
+  padding: 22px;
+  min-height: 100vh;
+  background: radial-gradient(
+      circle at top,
+      #111827 0%,
+      #0b1220 40%,
+      #050814 100%
+  );
+}
+
+/* =========================
+   TITLE (POWER BI STYLE)
+========================= */
+
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+  color: #f8fafc;
+}
+
+/* =========================
+   KPI GRID
+========================= */
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+/* =========================
+   KPI CARDS (DARK GLASS)
+========================= */
+
+.kpi-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  padding: 14px;
+  transition: 0.3s ease;
+  text-align: center;
+}
+
+.kpi-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.kpi-card h3 {
+  font-size: 12px;
+  font-weight: 500;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.kpi-card p {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* =========================
+   CHART GRID
+========================= */
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+/* =========================
+   CHART CARDS
+========================= */
+
+.chart-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 14px;
+  transition: 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+
+.chart-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 10px;
+  border-left: 3px solid #3b82f6;
+  padding-left: 8px;
+}
+
+/* =========================
+   RECHARTS TOOLTIP
+========================= */
+
+.recharts-default-tooltip {
+  background: #111827 !important;
+  border: 1px solid #334155 !important;
+  border-radius: 10px !important;
+  color: #fff !important;
+}
+
+/* =========================
+   AXIS TEXT
+========================= */
+
+.recharts-cartesian-axis-tick-value {
+  fill: #94a3b8 !important;
+  font-size: 11px;
+}
+
+/* =========================
+   LEGEND
+========================= */
+
+.recharts-legend-item-text {
+  color: #cbd5e1 !important;
+}
+
+/* =========================
+   GRID LINES
+========================= */
+
+.recharts-cartesian-grid line {
+  stroke: rgba(148, 163, 184, 0.15) !important;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 1024px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 20px;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .chart-card {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.prediction-card{
+  background:#1e293b;
+  padding:25px;
+  border-radius:20px;
+  margin-bottom:30px;
+  color:white;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+
+.prediction-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+
+.prediction-card input{
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#334155;
+  color:white;
+  outline:none;
+}
+
+.prediction-card button{
+  margin-top:20px;
+  padding:12px 25px;
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.result-box{
+  margin-top:25px;
+  background:#0f172a;
+  padding:20px;
+  border-radius:15px;
+}
