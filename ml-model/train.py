@@ -7,7 +7,8 @@ import os
 
 # ================= CONNECT MONGODB ATLAS =================
 
-MONGO_URI = "mongodb+srv://nandanamukh14_db_user:Pnu%402003@cluster0.qaxu26u.mongodb.net/BankLoan?retryWrites=true&w=majority"
+
+MONGO_URI = "mongodb://nandanamukh14_db_user:Pnu%402003@ac-ffppp0r-shard-00-00.qaxu26u.mongodb.net:27017,ac-ffppp0r-shard-00-01.qaxu26u.mongodb.net:27017,ac-ffppp0r-shard-00-02.qaxu26u.mongodb.net:27017/BankLoan?replicaSet=atlas-13uzun-shard-0&ssl=true&authSource=admin"
 
 client = MongoClient(MONGO_URI)
 
