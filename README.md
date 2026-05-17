@@ -2,6 +2,8 @@
 
 ## About This Project
 
+Click Here to open the Live Dashboard -->  https://ai-bank-loan-predictor-and-analytic.vercel.app/
+
 This project is a full-stack MERN + Machine Learning system that predicts loan approval outcomes and provides analytical insights into customer financial behavior.
 
 The goal of this project is not only to predict whether a loan will be approved or rejected but also to understand the patterns behind financial decisions using data visualization and machine learning.
