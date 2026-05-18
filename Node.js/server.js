@@ -49,9 +49,9 @@ app.listen(PORT, () => {
 });
 
 // ===================== Predictor========================
-app.post("/predict", (req, res) => {
+app.post("/predict", async (req, res) => {
   try {
-    let {
+    const {
       income,
       creditScore,
       debtToIncomeRatio,
@@ -60,51 +60,107 @@ app.post("/predict", (req, res) => {
       riskScore
     } = req.body;
 
-    // Convert & sanitize inputs
-    income = Number(income || 0);
-    creditScore = Number(creditScore || 0);
-    debtToIncomeRatio = Number(debtToIncomeRatio || 0);
-    savingsAmount = Number(savingsAmount || 0);
-    existingLoansCount = Number(existingLoansCount || 0);
-    riskScore = Number(riskScore || 0);
-
-    // Prevent invalid data
-    if (!income || !creditScore) {
+    // ================= INPUT VALIDATION =================
+    if (
+      income === undefined ||
+      creditScore === undefined ||
+      debtToIncomeRatio === undefined ||
+      savingsAmount === undefined ||
+      existingLoansCount === undefined ||
+      riskScore === undefined
+    ) {
       return res.status(400).json({
-        error: "Missing required fields"
+        error: "All input fields are required"
       });
     }
 
-    // Normalized scoring (more stable)
+    // ================= NORMALIZATION =================
+    const normalizedIncome = Math.min(income / 200000, 1);
+
+    const normalizedCredit = Math.min(
+      creditScore / 850,
+      1
+    );
+
+    const normalizedSavings = Math.min(
+      savingsAmount / 500000,
+      1
+    );
+
+    // Handles both 0.4 and 40 formats
+    const normalizedDebt =
+      debtToIncomeRatio > 1
+        ? debtToIncomeRatio / 100
+        : debtToIncomeRatio;
+
+    const normalizedLoans = Math.min(
+      existingLoansCount / 5,
+      1
+    );
+
+    const normalizedRisk = Math.min(
+      riskScore / 100,
+      1
+    );
+
+    // ================= SCORING LOGIC =================
     let score =
-      (creditScore / 850) * 0.35 +
-      (income / 200000) * 0.2 +
-      (savingsAmount / 1000000) * 0.15 -
-      (debtToIncomeRatio * 0.2) -
-      (existingLoansCount * 0.1) -
-      (riskScore * 0.25);
+      normalizedIncome * 25 +
+      normalizedCredit * 30 +
+      normalizedSavings * 20 -
+      normalizedDebt * 25 -
+      normalizedLoans * 10 -
+      normalizedRisk * 30;
 
-    // Clamp score between 0 and 1
-    score = Math.max(0, Math.min(score, 1));
+    // Base probability centered around 50
+    let approvalProbability = Math.round(score + 50);
 
-    const prediction = score > 0.5 ? "Approved" : "Rejected";
+    // Clamp between 0 and 100
+    approvalProbability = Math.max(
+      0,
+      Math.min(approvalProbability, 100)
+    );
 
-    const approvalProbability = (score * 100).toFixed(2);
+    // ================= DECISION =================
+    const prediction =
+      approvalProbability >= 60
+        ? "Approved"
+        : "Rejected";
 
-    const reasons = [];
+    // ================= REASONS =================
+    let reasons = [];
 
-    if (creditScore >= 700) reasons.push("Good credit score");
-    else reasons.push("Low credit score");
+    if (creditScore >= 750) {
+      reasons.push("Excellent credit score");
+    } else if (creditScore >= 650) {
+      reasons.push("Moderate credit score");
+    } else {
+      reasons.push("Low credit score");
+    }
 
-    if (debtToIncomeRatio < 0.4) reasons.push("Low debt burden");
-    else reasons.push("High debt burden");
+    if (normalizedDebt < 0.4) {
+      reasons.push("Healthy debt-to-income ratio");
+    } else {
+      reasons.push("High debt burden");
+    }
 
-    if (savingsAmount > 200000) reasons.push("Strong savings");
-    else reasons.push("Low savings");
+    if (savingsAmount >= 200000) {
+      reasons.push("Strong savings history");
+    } else {
+      reasons.push("Limited savings");
+    }
 
-    if (existingLoansCount > 2) reasons.push("Multiple existing loans (risk)");
-    else reasons.push("Low existing loan burden");
+    if (existingLoansCount >= 3) {
+      reasons.push("Multiple active loans");
+    }
 
+    if (riskScore < 40) {
+      reasons.push("Low financial risk");
+    } else {
+      reasons.push("High financial risk");
+    }
+
+    // ================= RESPONSE =================
     res.json({
       prediction,
       approvalProbability,
@@ -113,6 +169,7 @@ app.post("/predict", (req, res) => {
 
   } catch (err) {
     console.log("Prediction Error:", err);
+
     res.status(500).json({
       error: "Prediction failed"
     });
