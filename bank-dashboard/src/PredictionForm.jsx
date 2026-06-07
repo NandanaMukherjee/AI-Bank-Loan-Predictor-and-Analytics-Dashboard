@@ -26,7 +26,7 @@ function PredictionForm() {
       setLoading(true);
 
       const ML_BASE_URL =
-  process.env.REACT_APP_ML_API_URL || "http://localhost:5000";
+  process.env.REACT_APP_ML_API_URL || "https://ai-bank-loan-predictor-ml.onrender.com";
       const response = await axios.post(
         `${ML_BASE_URL}/predict`,
         {
