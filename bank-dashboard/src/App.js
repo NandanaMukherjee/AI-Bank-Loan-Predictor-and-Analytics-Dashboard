@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     // 💡 If Vercel env has ".../loans", we use it as-is. If local, fallback appends /loans to the port.
     const envUrl = process.env.REACT_APP_NODE_API_URL;
-    const FETCH_URL = envUrl ? envUrl : "http://localhost:5000/loans";
+    const FETCH_URL = envUrl ? envUrl : "https://ai-bank-loan-predictor-and-analytics.onrender.com/loans";
 
    axios.get(FETCH_URL)
   .then((response) => {
