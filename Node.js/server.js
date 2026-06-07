@@ -8,7 +8,7 @@ app.use(express.json());
 
 // ================= MONGODB CONNECTION =================
 const MONGO_URI =
-  "mongodb://nandanamukh14_db_user:Pnu%402003@ac-ffppp0r-shard-00-00.qaxu26u.mongodb.net:27017,ac-ffppp0r-shard-00-01.qaxu26u.mongodb.net:27017,ac-ffppp0r-shard-00-02.qaxu26u.mongodb.net:27017/?ssl=true&replicaSet=atlas-13uzun-shard-0&authSource=admin&appName=Cluster0";
+  "mongodb+srv://nandanamukh14_db_user:Pnu%402003@cluster0.qaxu26u.mongodb.net/BankLoan?retryWrites=true&w=majority";
 
 mongoose
   .connect(MONGO_URI)
