@@ -31,26 +31,36 @@ function App() {
     const envUrl = process.env.REACT_APP_NODE_API_URL;
     const FETCH_URL = envUrl ? envUrl : "http://localhost:5000/loans";
 
-    axios.get(FETCH_URL)
-      .then((response) => {
-        const cleaned = response.data.map((loan) => ({
-          ...loan,
-          loanStatus: loan.loanStatus?.toLowerCase?.()?.trim(),
-          defaultHistory: loan.defaultHistory?.toLowerCase?.()?.trim(),
-          isFraudSuspected:
-            loan.isFraudSuspected === true ||
-            loan.isFraudSuspected === "true" ||
-            loan.isFraudSuspected === 1
-        }));
+   axios.get(FETCH_URL)
+  .then((response) => {
+    // 1. Figure out where the array actually lives in the response
+    let rawLoans = [];
+    if (Array.isArray(response.data)) {
+      rawLoans = response.data;
+    } else if (response.data && Array.isArray(response.data.loans)) {
+      rawLoans = response.data.loans;
+    } else if (response.data && Array.isArray(response.data.data)) {
+      rawLoans = response.data.data;
+    }
 
-        console.log("CLEANED DATA:", cleaned);
-        setLoans(cleaned);
-      })
-      .catch((error) => {
-        console.error("Data fetching failed:", error);
-      });
-  }, []);
+    // 2. Clean the data safely using our resolved array
+    const cleaned = rawLoans.map((loan) => ({
+      ...loan,
+      loanStatus: loan.loanStatus?.toLowerCase?.()?.trim(),
+      defaultHistory: loan.defaultHistory?.toLowerCase?.()?.trim(),
+      isFraudSuspected:
+        loan.isFraudSuspected === true ||
+        loan.isFraudSuspected === "true" ||
+        loan.isFraudSuspected === 1
+    }));
 
+    console.log("CLEANED DATA:", cleaned);
+    setLoans(cleaned);
+  })
+  .catch((error) => {
+    console.error("Data fetching failed:", error);
+  });
+}, []);
   // ================= KPIs =================
   const totalApplications = loans.length;
 
