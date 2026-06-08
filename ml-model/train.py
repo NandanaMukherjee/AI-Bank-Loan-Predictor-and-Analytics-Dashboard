@@ -39,18 +39,11 @@ print(df.columns.tolist())
 features = [
 
     "income",
-    "monthlyExpenses",
-    "savingsAmount",
     "creditScore",
     "debtToIncomeRatio",
+    "savingsAmount",
     "existingLoansCount",
-    "loanAmount",
-    "interestRate",
-    "jobTenureYears",
-    "creditHistoryLength",
-    "loanTenureMonths",
-    "dependents",
-    "age"
+    "riskScore"
 
 ]
 

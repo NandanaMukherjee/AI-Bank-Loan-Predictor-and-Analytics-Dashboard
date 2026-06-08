@@ -42,15 +42,7 @@ def predict():
             "savingsAmount",
             "existingLoansCount",
             "riskScore",
-            "loanAmount",
-            "interestRate",
-            "financialHealthScore",
-            "jobTenureYears",
-            "creditHistoryLength",
-            "monthlyExpenses",
-            "loanTenureMonths",
-            "dependents",
-            "age"
+            
 
         ]
 
@@ -78,24 +70,7 @@ def predict():
 
         riskScore = float(data["riskScore"])
 
-        loanAmount = float(data["loanAmount"])
-
-        interestRate = float(data["interestRate"])
-
-        financialHealthScore = float(data["financialHealthScore"])
-
-        jobTenureYears = float(data["jobTenureYears"])
-
-        creditHistoryLength = float(data["creditHistoryLength"])
-
-        monthlyExpenses = float(data["monthlyExpenses"])
-
-        loanTenureMonths = float(data["loanTenureMonths"])
-
-        dependents = float(data["dependents"])
-
-        age = float(data["age"])
-
+        
         # ================= MODEL INPUT =================
 
         features = np.array([[
@@ -137,17 +112,9 @@ def predict():
         if savingsAmount < 5000:
             reasons.append("Low savings amount")
 
-        if income < monthlyExpenses:
-            reasons.append("Expenses higher than income")
+      
 
-        if financialHealthScore < 50:
-            reasons.append("Poor financial health score")
-
-        if jobTenureYears < 2:
-            reasons.append("Low job stability")
-
-        if creditHistoryLength < 3:
-            reasons.append("Short credit history")
+       
 
         # ================= FINANCIAL PROFILE =================
 
