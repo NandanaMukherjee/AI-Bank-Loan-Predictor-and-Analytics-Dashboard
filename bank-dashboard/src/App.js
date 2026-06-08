@@ -27,81 +27,23 @@ function App() {
 
   // ================= FETCH DATA =================
   useEffect(() => {
-  const envUrl = process.env.REACT_APP_NODE_API_URL;
+    // 💡 If Vercel env has ".../loans", we use it as-is. If local, fallback appends /loans to the port.
+    const envUrl = process.env.REACT_APP_NODE_API_URL;
+    const FETCH_URL = envUrl ? envUrl : "https://ai-bank-loan-predictor-and-analytics.onrender.com/loans";
 
-  const FETCH_URL = envUrl
-    ? envUrl
-    : "https://ai-bank-loan-predictor-and-analytics.onrender.com/loans";
-
-  axios.get(FETCH_URL)
-    .then((response) => {
-
-      console.log("FETCH URL:", FETCH_URL);
-      console.log("FULL RESPONSE:", response.data);
-
-      // Figure out where the array actually lives
-      let rawLoans = [];
-
-      if (Array.isArray(response.data)) {
-        rawLoans = response.data;
-      } else if (
-        response.data &&
-        Array.isArray(response.data.loans)
-      ) {
-        rawLoans = response.data.loans;
-      } else if (
-        response.data &&
-        Array.isArray(response.data.data)
-      ) {
-        rawLoans = response.data.data;
-      }
-
-      console.log("RAW LOANS:", rawLoans);
-
-      const cleaned = rawLoans.map((loan) => ({
-        ...loan,
-        loanStatus: loan.loanStatus?.toLowerCase?.()?.trim(),
-        defaultHistory: loan.defaultHistory?.toLowerCase?.()?.trim(),
-        isFraudSuspected:
-          loan.isFraudSuspected === true ||
-          loan.isFraudSuspected === "true" ||
-          loan.isFraudSuspected === 1
-      }));
-
-      console.log("CLEANED DATA:", cleaned);
-
-      setLoans(cleaned);
-    })
-    .catch((error) => {
-      console.error("Data fetching failed:", error);
-    });
-}, []);
-
-    // 2. Clean the data safely using our resolved array
-axios.get(FETCH_URL)
+   axios.get(FETCH_URL)
   .then((response) => {
-
-    console.log("FETCH URL:", FETCH_URL);
-    console.log("FULL RESPONSE:", response.data);
-
+    // 1. Figure out where the array actually lives in the response
     let rawLoans = [];
-
     if (Array.isArray(response.data)) {
       rawLoans = response.data;
-    } else if (
-      response.data &&
-      Array.isArray(response.data.loans)
-    ) {
+    } else if (response.data && Array.isArray(response.data.loans)) {
       rawLoans = response.data.loans;
-    } else if (
-      response.data &&
-      Array.isArray(response.data.data)
-    ) {
+    } else if (response.data && Array.isArray(response.data.data)) {
       rawLoans = response.data.data;
     }
 
-    console.log("RAW LOANS:", rawLoans);
-
+    // 2. Clean the data safely using our resolved array
     const cleaned = rawLoans.map((loan) => ({
       ...loan,
       loanStatus: loan.loanStatus?.toLowerCase?.()?.trim(),
@@ -113,12 +55,12 @@ axios.get(FETCH_URL)
     }));
 
     console.log("CLEANED DATA:", cleaned);
-
     setLoans(cleaned);
   })
   .catch((error) => {
     console.error("Data fetching failed:", error);
   });
+}, []);
   // ================= KPIs =================
   const totalApplications = loans.length;
 
