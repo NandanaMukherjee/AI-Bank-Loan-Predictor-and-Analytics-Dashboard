@@ -78,6 +78,30 @@ function App() {
 }, []);
 
     // 2. Clean the data safely using our resolved array
+axios.get(FETCH_URL)
+  .then((response) => {
+
+    console.log("FETCH URL:", FETCH_URL);
+    console.log("FULL RESPONSE:", response.data);
+
+    let rawLoans = [];
+
+    if (Array.isArray(response.data)) {
+      rawLoans = response.data;
+    } else if (
+      response.data &&
+      Array.isArray(response.data.loans)
+    ) {
+      rawLoans = response.data.loans;
+    } else if (
+      response.data &&
+      Array.isArray(response.data.data)
+    ) {
+      rawLoans = response.data.data;
+    }
+
+    console.log("RAW LOANS:", rawLoans);
+
     const cleaned = rawLoans.map((loan) => ({
       ...loan,
       loanStatus: loan.loanStatus?.toLowerCase?.()?.trim(),
@@ -89,12 +113,12 @@ function App() {
     }));
 
     console.log("CLEANED DATA:", cleaned);
+
     setLoans(cleaned);
   })
   .catch((error) => {
     console.error("Data fetching failed:", error);
   });
-}, []);
   // ================= KPIs =================
   const totalApplications = loans.length;
 
