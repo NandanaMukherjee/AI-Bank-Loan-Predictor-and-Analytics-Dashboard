@@ -106,15 +106,7 @@ def predict():
             savingsAmount,
             existingLoansCount,
             riskScore,
-            loanAmount,
-            interestRate,
-            financialHealthScore,
-            jobTenureYears,
-            creditHistoryLength,
-            monthlyExpenses,
-            loanTenureMonths,
-            dependents,
-            age
+            
 
         ]])
 
