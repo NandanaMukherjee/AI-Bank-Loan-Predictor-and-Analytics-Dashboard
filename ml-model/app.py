@@ -118,26 +118,49 @@ def predict():
 
         # ================= FINANCIAL PROFILE =================
 
+       # ================= FINANCIAL PROFILE =================
+
         if len(reasons) == 0:
 
-            reasons = [
-                "Excellent financial profile"
-            ]
+             if prediction == 1:
 
-        elif len(reasons) >= 5:
+               if probability >= 0.80:
+                reasons = ["Excellent financial profile"]
 
-            reasons.insert(
-                0,
-                "Bad financial profile"
-            )
+               elif probability >= 0.60:
+                reasons = ["Good financial profile"]
 
-        elif len(reasons) >= 2:
+               else:
+                reasons = ["Loan approved with moderate risk"]
 
-            reasons.insert(
-                0,
-                "Moderate financial risk"
-            )
+             else:
 
+                if probability <= 0.30:
+                 reasons = ["Application did not meet approval criteria"]
+
+                else:
+                  reasons = ["Borderline financial profile"]
+
+        elif len(reasons)>= 5:
+
+         reasons.insert(
+            0,
+           " High approval risk"
+                  )
+
+        elif len(reasons)>= 3:
+
+         reasons.insert(
+              0,
+          "Moderate financial risk"
+                   )
+
+        else:
+
+         reasons.insert(
+        0,
+        "Some risk factors detected"
+          )
         # ================= RESPONSE =================
 
         return jsonify({
