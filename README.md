@@ -2,7 +2,7 @@
 
 ## About This Project
 
-Click Here to open the Live Dashboard -->  https://ai-bank-loan-predictor-and-analytic.vercel.app/
+Click Here to open the Live Dashboard --> https://ai-bank-loan-predictor-and-analytic-henna.vercel.app/
 
 This project is a full-stack MERN + Machine Learning system that predicts loan approval outcomes and provides analytical insights into customer financial behavior.
 
